@@ -1,8 +1,10 @@
 import pygame
 from pygame.constants import DROPBEGIN
+from pygame.sprite import Sprite
 
-class Ship():
+class Ship(Sprite):
     def __init__(self,ai_settings,screen):
+        super(Ship,self).__init__()
         self.screen = screen
         self.ai_settings = ai_settings
 
@@ -11,10 +13,10 @@ class Ship():
         self.screen_rect = screen.get_rect()
 
         self.rect.centerx = self.screen_rect.centerx
-        self.rect.centery = self.screen_rect.centery
+        self.rect.bottom = self.screen_rect.bottom
 
         self.center = float(self.rect.centerx)
-        self.postition = float(self.rect.centery)
+        self.postition = float(self.rect.bottom)
 
         self.moving_right = False
         self.moving_left = False
@@ -35,7 +37,11 @@ class Ship():
             self.postition += self.ai_settings.ship_speed_factor
 
         self.rect.centerx = self.center
-        self.rect.centery = self.postition
+        self.rect.bottom = self.postition
+
+
+    def center_ship(self):
+        self.postition= self.screen_rect.bottom
 
     def blitme(self):
         self.screen.blit(self.image,self.rect)
