@@ -1,1 +1,1 @@
-first pygame project
+first pygame project, player can move any direction, trying to add sound effect shortly
