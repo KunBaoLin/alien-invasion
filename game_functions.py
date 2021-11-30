@@ -6,6 +6,9 @@ from bullet import Bullet
 from alien import Alien
 from random import randint
 from time import sleep
+import sound_effects as sound
+
+
 
 def check_keydown_events(event,ai_settings,screen,ship,bullets):
         if event.key == pygame.K_RIGHT:
@@ -85,6 +88,8 @@ def fire_bullet(ai_settings,screen,ship,bullets):
         if len(bullets) < ai_settings.bullets_allowed:
             new_bullet = Bullet(ai_settings,screen,ship)
             bullets.add(new_bullet)
+            sound.bullet_sound.play()
+
 
 
 def update_bullets(ai_settings,screen,stats,sb,ship,aliens,bullets):
@@ -101,6 +106,7 @@ def check_bullet_alien_collisions(ai_settings, screen, stats,sb,ship, aliens, bu
         for aliens in collisions.values():
             stats.score += ai_settings.alien_points * len(aliens)
             sb.prep_score()
+            sound.alien_sound.play()
         check_high_score(stats,sb)
     if len(aliens)==0:
         bullets.empty()
@@ -154,7 +160,7 @@ def change_fleet_direction(ai_settings,aliens):
     ai_settings.fleet_direction *= -1
 
 
-def ship_hit(ai_settings,stats,screen,sb,ship,aliens,bullets):
+def ship_hit(ai_settings,screen,stats,sb,ship,aliens,bullets):
     if stats.ships_left > 0:
         stats.ships_left -= 1
         sb.prep_ships()
@@ -178,12 +184,12 @@ def check_aliens_bottom(ai_settings,screen,stats,sb,ship,aliens,bullets):
 
 
 
-def update_aliens(ai_settings,stats,screen,sb,ship,aliens,bullets):
+def update_aliens(ai_settings,screen,stats,sb,ship,aliens,bullets):
     check_fleet_edges(ai_settings,aliens)
     aliens.update()
     if pygame.sprite.spritecollideany(ship,aliens):
-        ship_hit(ai_settings,stats,screen,sb,ship,aliens,bullets)
-    check_aliens_bottom(ai_settings,stats,sb,screen,ship,aliens,bullets)
+        ship_hit(ai_settings,screen,stats,sb,ship,aliens,bullets)
+    check_aliens_bottom(ai_settings,screen,stats,sb,ship,aliens,bullets)
 
 
 

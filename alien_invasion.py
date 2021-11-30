@@ -7,6 +7,8 @@ import game_functions as gf
 from alien import Alien
 from button import Button
 from scoreboard import Scoreboard
+import sound_effects as sound
+
 
 def run_game():
     #init pygame
